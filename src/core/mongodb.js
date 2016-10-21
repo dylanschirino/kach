@@ -19,12 +19,12 @@
 
          MongoClient.connect( MONGO_URL, ( oError, oDB ) => {
 
-       if ( oError ) {
-         return fReject( oError );
-       }
-       fResolve( oDB = oLinkedDB );
+             if ( oError ) {
+                 return fReject( oError );
+             }
+             fResolve( oDB = oLinkedDB );
+         } );
      } );
-   } );
  };
  export {
    fInit as init,
