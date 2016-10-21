@@ -6,4 +6,6 @@
  * started at 21/10/2016
  */
 
- console.log( "Hello World" );
+// init db
+
+// init expresssss
