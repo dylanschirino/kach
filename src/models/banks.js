@@ -1,5 +1,5 @@
 import { db } from "../core/mongodb";
 
-let oBanks = db.collection( "banks" );
-
-export default oBanks;
+export default function(){
+  return db.collection( "banks" );
+}

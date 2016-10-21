@@ -12,6 +12,7 @@
  import mitanEko from "mitan-eko";
  import zouti from "zouti";
  import systemRoutes from "../routes/system";
+ import BanksRoutes from "../routes/bank";
 
  let oApp,
      fInit;
@@ -36,6 +37,7 @@
 
   // routes
   oApp.use( systemRoutes );
+  oApp.use( BanksRoutes );
 
 
   //listening
