@@ -11,6 +11,8 @@
  import { ObjectID } from "mongodb";
  import distance from "jeyo-distans";
 
+ import checkPosition from "../../core/utils/position";
+
  export default function( oRequest, oResponse ) {
 
      let sTerminalsID = ( oRequest.params.id || "" ).trim(),
@@ -22,12 +24,7 @@
          error( oRequest, oResponse, "Invalid ID!!", 400 );
      }
 
-     if ( !isNaN( iLatitude ) && !isNaN( iLongitude ) ) {
-         oCurrentPosition = {
-             "latitude": iLatitude,
-             "longitude": iLongitude,
-         };
-     }
+     oCurrentPosition = checkPosition( iLatitude, iLongitude );
 
      getTerminals()
       .findOne( {
@@ -57,7 +54,7 @@
           if ( oCurrentPosition ) {
 
             // TODO: compute distance
-            oCleanTerminal.distance = distance( oCurrentPosition, oCleanTerminal ) * 1000;
+              oCleanTerminal.distance = distance( oCurrentPosition, oCleanTerminal ) * 1000;
 
           }
           send( oRequest, oResponse, oCleanTerminal );
