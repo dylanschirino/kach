@@ -13,6 +13,7 @@
  import zouti from "zouti";
  import systemRoutes from "../routes/system";
  import BanksRoutes from "../routes/bank";
+ import terminalsRoutes from "../routes/terminals";
 
  let oApp,
      fInit;
@@ -38,6 +39,7 @@
   // routes
   oApp.use( systemRoutes );
   oApp.use( BanksRoutes );
+  oApp.use( terminalsRoutes );
 
 
   //listening
