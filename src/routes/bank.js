@@ -12,6 +12,6 @@ import listBanksControllers from "../controllers/banks/list";
 
 let oRouter = new Router();
 
-oRouter.get( "/banks/:country" );
+oRouter.get( "/banks/",listBanksControllers );
 
 export default oRouter;
