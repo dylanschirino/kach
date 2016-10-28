@@ -48,21 +48,18 @@
      } )
      .toArray()
      .then( ( aTerminals = [] ) => {
-         let aCleanTerminals;
-         // 1. Compute distance  3. Clean useless properties
-         aTerminals.map( ( aCleanTerminals ) => {
-           aCleanTerminals = {
-           "id": oTerminal._id,
-           "bank": oTerminal.bank,
-           "latitude": oTerminal.latitude,
-           "longitude": oTerminal.longitude,
-           "address": oTerminal.address,
-           "empty": !!oTerminal.empty,
+       let aCleanTerminals;
+
+       // 1. Compute distances
+       // 3. Clean useless properties
+       aCleanTerminals = aTerminals.map( ( { _id, bank, latitude, longitude, address, empty } ) => ( {
+           "id": _id,
+           "empty": !!empty,
            "distance": distance( oCurrentPosition, { latitude, longitude } ) * 1000,
-         }
-         } );
-         // 2. Sort by distance
-         aaCleanTerminals = aaCleanTerminals.sort( ( oTerminalOne, oTerminalTwo ) => oTerminalOne.distance - oTerminalTwo.distance );
+           bank, latitude, longitude, address,
+       } ) );
+       // 2. Sort by distances
+       aCleanTerminals.sort( ( oTerminalOne, oTerminalTwo ) => oTerminalOne.distance - oTerminalTwo.distance );
 
          send( oRequest, oResponse, aCleanTerminals );
      } )
