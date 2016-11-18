@@ -11,7 +11,7 @@
  import details from "../controllers/terminals/details";
  import create from "../controllers/terminals/create";
 // import update from "../controllers/terminals/update";
-// import destroy from "../controllers/terminals/destroy";
+ import destroy from "../controllers/terminals/destroy";
 
  let oRouter = new Router();
 
@@ -19,6 +19,6 @@
  oRouter.get( "/terminals/:id", details );
  oRouter.post( "/terminals", create );
 // oRouter.patch ( "/terminals/:id", update );
-// oRouter.delete ( "/terminals/:id", destroy );
+ oRouter.delete( "/terminals/:id", destroy );
 
  export default oRouter;
