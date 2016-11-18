@@ -6,13 +6,12 @@
  * started at 18/11/2016
  */
 
- import Promise from "bluebird";
 
  import { ObjectID } from "mongodb";
 
  import getTerminals from "../../models/terminals.js";
 
- import getBanks from "../../models/banks.js";
+ import { checkBank } from "../../models/banks.js";
 
  import { send, error } from "../../core/utils/api";
 
@@ -28,7 +27,6 @@
          sAddress = ( POST.address || "" ).trim(),
          oPosition = checkPosition( iLatitude, iLongitude ),
          oTerminal,
-         fCheckBank,
          fCreateTerminal;
 
      if ( !oPosition ) {
@@ -45,35 +43,7 @@
      // Si on a une adresse on lui ajoute mais si on en a pas c'est optionnel
      sAddress && ( oTerminal.address = sAddress );
 
-     fCheckBank = () => {
-         let oBankID;
-
-       // Si on a pas de bankid on considère qu'on peut passer a la suite
-         if ( !sBankID ) {
-             return Promise.resolve( false );
-         }
-
-         try {
-             oBankID = new ObjectID( sBankID );
-
-         } catch ( oError ) {
-
-             return Promise.reject( new Error( "Invalid bankID!" ) );
-         }
-
-         return getBanks()
-            .findOne( {
-                "_id": oBankID,
-            } )
-            .then( ( oBank ) => {
-                if ( oBank ) {
-
-                    return Promise.resolve( true );
-                }
-
-                return Promise.reject( new Error( "Unknow Bank" ) );
-            } );
-     };
+     checkBank( sBankID );
 
      fCreateTerminal = ( bHasBank ) => {
          if ( bHasBank ) {
@@ -83,7 +53,7 @@
          return getTerminals().insertOne( oTerminal );
      };
 
-     fCheckBank()
+     checkBank( sBankID )
         .then( fCreateTerminal )
         .then( () => {
           //  all is ok

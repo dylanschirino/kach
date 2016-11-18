@@ -30,7 +30,7 @@ export default function( oRequest, oResponse ) {
                 return send( oRequest, oResponse, "", 204 );
             }
 
-            return error( oRequest, oResponse,"Unknow deletion error", 500 );
+            return error( oRequest, oResponse, "Unknow deletion error", 500 );
         } )
         .catch( ( oError ) => {
             error( oRequest, oResponse, oError );
