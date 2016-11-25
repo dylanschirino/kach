@@ -14,6 +14,7 @@
  import systemRoutes from "../routes/system";
  import BanksRoutes from "../routes/bank";
  import terminalsRoutes from "../routes/terminals";
+ import pagesRoutes from "../routes/pages";
 
  let oApp,
      fInit;
@@ -24,22 +25,23 @@
       if ( oApp ) {
           return oApp;
       }
-      oApp = express();
+     oApp = express();
 
   // Configure middlewares
 
- oApp.use( mitanEko( "kach" ) );
- oApp.use( responseTime() );
- oApp.use( bodyParser.json() );
- oApp.use( bodyParser.urlencoded( {
-     "extended": true,
- } ) );
+     oApp.use( mitanEko( "kach" ) );
+     oApp.use( responseTime() );
+     oApp.use( bodyParser.json() );
+     oApp.use( bodyParser.urlencoded( {
+         "extended": true,
+     } ) );
 
 
   // routes
-  oApp.use( systemRoutes );
-  oApp.use( BanksRoutes );
-  oApp.use( terminalsRoutes );
+     oApp.use( systemRoutes );
+     oApp.use( BanksRoutes );
+     oApp.use( terminalsRoutes );
+     oApp.use( pagesRoutes );
 
 
   //listening
