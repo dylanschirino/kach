@@ -32,6 +32,12 @@ gulp.task( "build", function() {
         .pipe( gulp.dest( "bin" ) )
 } );
 
+gulp.task ( "views", function() {
+  return gulp
+      .src( "src/views/**" )
+      .pipe( gulp.dest( "bin/views" ) )
+} );
+
 gulp.task( "reset-db", function( fNext ){
 
   // 1. Verify that we are INSIDE the vagrant donc si le nom d'utilisateur est différent de vagrant c'est qu'on est hors de la vagrant.
@@ -98,8 +104,9 @@ gulp.task( "reset-db", function( fNext ){
 
 gulp.task( "watch", function() {
     gulp.watch( "src/**/*.js", [ "build" ] );
+    gulp.watch( "src/views/**", [ "views" ] );
 } );
 
-gulp.task( "default", [ "build" ] );
+gulp.task( "default", [ "build","views" ] );
 
-gulp.task( "work", [ "build", "watch" ] );
+gulp.task( "work", [ "build", "views", "watch" ] );

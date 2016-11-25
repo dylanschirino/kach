@@ -7,5 +7,5 @@
  */
 
  export default function (oRequest, oResponse ){
-   oResponse.send( "hello world");
+   oResponse.render( "index");
  }
