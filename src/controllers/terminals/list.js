@@ -12,8 +12,8 @@
  import checkPosition from "../../core/utils/position";
 
  const ARC_KILOMETER = 0.009259, // 1 décimal de lat/long vaut X km
-       DEFAULT_RADIUS = 1,
-       MAX_RADIUS = 10;
+     DEFAULT_RADIUS = 1,
+     MAX_RADIUS = 10;
 
  export default function( oRequest, oResponse ) {
 
@@ -37,29 +37,39 @@
      getTerminals()
      .find( {
          "latitude": {
-             "$gt": oCurrentPosition.latitude - iSearchRadius, //$gt = greaterThan $lt = LesserThan
+             "$gt": oCurrentPosition.latitude - iSearchRadius, // $gt = greaterThan $lt = LesserThan
              "$lt": oCurrentPosition.latitude + iSearchRadius,
          },
          "longitude": {
-         "$gt": oCurrentPosition.longitude - iSearchRadius,
-         "$lt": oCurrentPosition.longitude + iSearchRadius,
-       },
-       "deleted_at": null,
+             "$gt": oCurrentPosition.longitude - iSearchRadius,
+             "$lt": oCurrentPosition.longitude + iSearchRadius,
+         },
+         "deleted_at": null,
      } )
      .toArray()
      .then( ( aTerminals = [] ) => {
-       let aCleanTerminals;
+         let aCleanTerminals,
+             aTerminalToReset = [];
 
        // 1. Compute distances
        // 3. Clean useless properties
-       aCleanTerminals = aTerminals.map( ( { _id, bank, latitude, longitude, address, empty } ) => ( {
-           "id": _id,
-           "empty": !!empty,
-           "distance": distance( oCurrentPosition, { latitude, longitude } ) * 1000,
-           bank, latitude, longitude, address,
-       } ) );
+         aCleanTerminals = aTerminals.map( ( { _id, bank, latitude, longitude, address, empty, updated_at } ) => {
+             let bEmptyState = empty;
+             
+             if ( Date.now() - ( new Date( updated_at ) ).getTime() > 24 * 3600 * 1000 && empty ) {
+                 bEmptyState = false;
+                 aTerminalToReset.push( _id );
+             }
+
+             return {
+                 "id": _id,
+                 "empty": !!empty,
+                 "distance": distance( oCurrentPosition, { latitude, longitude } ) * 1000,
+                 bank, latitude, longitude, address,
+             };
+         } );
        // 2. Sort by distances
-       aCleanTerminals.sort( ( oTerminalOne, oTerminalTwo ) => oTerminalOne.distance - oTerminalTwo.distance );
+         aCleanTerminals.sort( ( oTerminalOne, oTerminalTwo ) => oTerminalOne.distance - oTerminalTwo.distance );
 
          send( oRequest, oResponse, aCleanTerminals );
      } )
