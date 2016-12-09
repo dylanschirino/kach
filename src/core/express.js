@@ -35,6 +35,7 @@
      oApp.use( bodyParser.urlencoded( {
          "extended": true,
      } ) );
+     oApp.use( express.static(`${__dirname}/../../static`));
      oApp.set( "views", `${__dirname}/../views` );
      oApp.set( "view engine", "pug" );
   // routes
