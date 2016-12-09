@@ -12,11 +12,25 @@
 
 var gulp = require( "gulp" ),
     gESLint = require( "gulp-eslint" ),
+    gSass = require ( "gulp-sass" ),
     gBabel = require( "gulp-babel" ),
     gUtil = require ( "gulp-util" ),
     Mongo = require ( "mongodb" ),
     ObjectID = Mongo.ObjectID,
     MongoClient = Mongo.MongoClient;
+
+
+gulp.task( "styles", function(){
+    return gulp
+      .src("static/sass/**/*.scss" )
+      .pipe( gSass({
+        "includePaths": [
+          require("bourbon").includePaths,
+        ]
+
+      }).on( "error", gSass.logError ) )
+      .pipe( gulp.dest( "static/css" ) )
+} );
 
 gulp.task( "lint", function() {
     return gulp
@@ -105,8 +119,9 @@ gulp.task( "reset-db", function( fNext ){
 gulp.task( "watch", function() {
     gulp.watch( "src/**/*.js", [ "build" ] );
     gulp.watch( "src/views/**", [ "views" ] );
+    gulp.watch( "static/sass/**/*.scss", [ "styles" ] );
 } );
 
-gulp.task( "default", [ "build","views" ] );
+gulp.task( "default", [ "build","views", "styles" ] );
 
-gulp.task( "work", [ "build", "views", "watch" ] );
+gulp.task( "work", [ "default", "watch" ] );
