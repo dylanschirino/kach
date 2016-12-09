@@ -6,6 +6,6 @@
  * started at 25/11/2016
  */
 
- export default function (oRequest, oResponse ){
-   oResponse.render( "index");
+ export default function( oRequest, oResponse ) {
+     oResponse.render( "index" );
  }
