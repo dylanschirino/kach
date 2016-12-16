@@ -18,6 +18,9 @@ var gulp = require( "gulp" ),
     Mongo = require( "mongodb" ),
     browserify = require( "browserify"),
     sourceStream = require( "vinyl-source-stream" ),
+    buffer = require( "vinyl-buffer" ),
+    gRename = require( "gulp-rename" ),
+    gUglify = require( "gulp-uglify" ),
     babelify = require( "babelify" ),
     ObjectID = Mongo.ObjectID,
     MongoClient = Mongo.MongoClient;
@@ -126,14 +129,18 @@ gulp.task( "modules", function(){
         } )
         .bundle()
         .pipe( sourceStream( "app.js" ) )
-        .pipe( gulp.dest( "static/js/" ) );
+        .pipe( gulp.dest( "static/js/" ) )
+        .pipe( buffer() )
+        .pipe( gRename( "app.min.js" ) )
+        .pipe( gUglify().on( "error", console.log ) )
+        .pipe( gulp.dest( "static/js" ));
 } );
 
 gulp.task( "watch", function() {
     gulp.watch( "src/**/*.js", [ "build" ] );
     gulp.watch( "src/views/**", [ "views" ] );
     gulp.watch( "static/sass/**/*.scss", [ "styles" ] );
-    gulp.watch( "static/modules/**/*.js", ’[ "modules" ] );
+    gulp.watch( "static/modules/**/*.js", [ "modules" ] );
 } );
 
 gulp.task( "default", [ "build","views", "styles", "modules" ] );
