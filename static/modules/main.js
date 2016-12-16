@@ -5,7 +5,11 @@
  * Coded by Dylan Schirino
  * started at 09/12/2016
  */
-import utils from "./utils";
-console.log( "hey oh" );
+import Vue from "vue";
 
-utils();
+let oApp = new Vue( {
+    "el": "#app",
+    "data": {
+        "message": "Hey from Vue",
+    },
+} );
