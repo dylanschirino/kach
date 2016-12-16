@@ -17,7 +17,8 @@
     "gulp-babel": "^6.1.2",
     "gulp-eslint": "^3.0.1",
     "gulp-sass": "^2.3.2",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0.7",
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "bluebird": "^3.4.6",

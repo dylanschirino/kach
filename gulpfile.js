@@ -12,10 +12,13 @@
 
 var gulp = require( "gulp" ),
     gESLint = require( "gulp-eslint" ),
-    gSass = require ( "gulp-sass" ),
+    gSass = require( "gulp-sass" ),
     gBabel = require( "gulp-babel" ),
-    gUtil = require ( "gulp-util" ),
-    Mongo = require ( "mongodb" ),
+    gUtil = require( "gulp-util" ),
+    Mongo = require( "mongodb" ),
+    browserify = require( "browserify"),
+    sourceStream = require( "vinyl-source-stream" ),
+    babelify = require( "babelify" ),
     ObjectID = Mongo.ObjectID,
     MongoClient = Mongo.MongoClient;
 
@@ -116,12 +119,23 @@ gulp.task( "reset-db", function( fNext ){
 
 } );
 
+gulp.task( "modules", function(){
+    browserify( "static/modules/main.js" )
+        .transform( babelify, {
+          "presets": [ "es2015" ],
+        } )
+        .bundle()
+        .pipe( sourceStream( "app.js" ) )
+        .pipe( gulp.dest( "static/js/" ) );
+} );
+
 gulp.task( "watch", function() {
     gulp.watch( "src/**/*.js", [ "build" ] );
     gulp.watch( "src/views/**", [ "views" ] );
     gulp.watch( "static/sass/**/*.scss", [ "styles" ] );
+    gulp.watch( "static/modules/**/*.js", ’[ "modules" ] );
 } );
 
-gulp.task( "default", [ "build","views", "styles" ] );
+gulp.task( "default", [ "build","views", "styles", "modules" ] );
 
 gulp.task( "work", [ "default", "watch" ] );
