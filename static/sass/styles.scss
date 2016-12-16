@@ -8,9 +8,11 @@
 
 @import "bourbon"; // Pour importer bourbon
 
-body{
-}
 
+.box{
+  background-color: pink;
+  padding: 20px;
+}
 figure {
   img{
     width: 250px;
