@@ -7,3 +7,5 @@
  */
 import utils from "./utils";
 console.log( "hey oh" );
+
+utils();
