@@ -9,7 +9,7 @@
   "author": "Dylan Schirino <dylan.schirino@hotmail.fr>",
   "license": "MIT",
   "browser": {
-  "vue": "vue/dist/vue.common"
+    "vue": "vue/dist/vue.common"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.16.0",
@@ -34,8 +34,10 @@
     "mitan-eko": "^0.1.0",
     "mongodb": "^2.2.10",
     "pug": "^2.0.0-beta6",
+    "reqwest": "^2.0.5",
     "response-time": "^2.3.1",
     "vue": "^2.1.4",
+    "vue-router": "^2.1.1",
     "zouti": "^0.5.0"
   }
 }

@@ -6,27 +6,34 @@
  * started at 09/12/2016
  */
 import Vue from "vue";
+import VueRouter from "vue-router";
 
-import "./components/cats-list";
+Vue.use( VueRouter );
 
-import "./components/secret";
+import TerminalsList from "./components/terminals-list";
+
+import TerminalDetails from "./components/terminal-details";
+
+
+let oRouter = new VueRouter( {
+    "routes": [
+    { "path": "/", "component": TerminalsList },
+    { "path": "/:id", "component": TerminalDetails },
+    ],
+} );
 
 let oApp = new Vue( {
-    "template": `
-    <div class="box">
-    <p>{{message}}</p>
-    <cats-list v-bind:elements="cats"></cats-list>
-    <secret v-bind:content="secret"></secret>
-    </div>
-    `,
-    "data": {
-        "message": "Hey from Vue",
-        "secret": "Je n'aime pas jimmy",
-        "cats":[
-          {"name":"Skitty", "age":6},
-          {"name":"Jimmy", "age":4},
-        ],
-    },
+  "template": `
+      <div class="wrapper">
+      <header>
+      <h1>Kach</h1>
+      <router-view></router-view>
+      <footer>
+      <a href="https://github.com/dylanschirino/kach">Github Kach</a>
+      </footer>
+      </div>
+      `,
+      "router": oRouter,
 } );
 
 oApp.$mount( "#app" );
